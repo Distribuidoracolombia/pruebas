@@ -73,12 +73,24 @@ function handleLogin() {
     const user = users.find(u => u.documento === documento && u.password === password);
     
     if (user) {
-        // Guardar información del usuario actual
+        // Guardar información del usuario actual (método original)
         localStorage.setItem('currentUser', JSON.stringify({
             nombre: user.nombre,
             documento: user.documento,
             cargo: user.cargo
         }));
+        
+        // Guardar información del usuario en el formato que espera dashboard.js
+        localStorage.setItem('userData', JSON.stringify({
+            nombre: user.nombre,
+            documento: user.documento,
+            cargo: user.cargo
+        }));
+        
+        // También guardar los valores individuales para la verificación inicial
+        localStorage.setItem('userName', user.nombre);
+        localStorage.setItem('userDocument', user.documento);
+        localStorage.setItem('userRole', user.cargo);
         
         // Redirigir al dashboard
         window.location.href = 'dashboard.html';
