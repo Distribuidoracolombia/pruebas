@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resultados del Examen</title>
+    <link rel="stylesheet" href="assets/css/resultados_styles.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h2>Resultados</h2>
+        </div>
+        
+        <div class="message">
+            Tu resultado: un error al elegir los resultados. Vuelve a intentarlo.
+        </div>
+        
+        <div class="result-box">
+            <div class="score">
+                <img src="check-icon.svg" alt="Resultado" class="score-icon">
+                <div class="percentage">Porcentaje: 0%</div>
+            </div>
+            
+            <div class="respondents">
+                <div>Preguntas respondidas:</div>
+                <div>0 de 0</div>
+            </div>
+        </div>
+        
+        <div class="details">
+            <div class="details-header">Detalle de Respuestas</div>
+            <!-- Aquí se pueden agregar los detalles de cada respuesta -->
+        </div>
+        
+        <div class="button-group">
+            <button class="button primary-button" id="playAgainBtn">
+                <i class="icon"></i> Volver a Jugar
+            </button>
+            <button class="button secondary-button" id="shareResultsBtn">
+                <i class="icon"></i> Compartir Resultados
+            </button>
+        </div>
+        
+        <div class="action-area">
+            <button class="action-button" id="acceptBtn">Aceptar</button>
+        </div>
+    </div>
+
+    <script src="assets/js/resultados_script.js"></script>
+</body>
+</html>

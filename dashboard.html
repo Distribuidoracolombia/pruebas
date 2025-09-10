@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Evaluación de Competencias en Excel</title>
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="stylesheet" href="assets/css/dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="dashboard-container">
+        <div class="dashboard-header">
+            <h1>Sistema de Evaluación de Competencias en Excel</h1>
+            <div class="user-profile">
+                <div class="user-avatar">
+                    <i class="fas fa-user-circle"></i>
+                </div>
+                <div class="user-info-dropdown">
+                    <span id="userName">Usuario</span>
+                    <div class="dropdown-content">
+                        <div class="user-details">
+                            <p><strong>Cargo:</strong> <span id="userRole">Cargo</span></p>
+                            <p><strong>Documento:</strong> <span id="userDocument">Documento</span></p>
+                        </div>
+                        <button class="logout-btn" onclick="cerrarSesion()">
+                            <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="dashboard-content">
+            <!-- Timer card removed from here -->
+            
+            <!-- Sección de Pruebas Teóricas -->
+            <h2 class="section-title">Pruebas Teóricas</h2>
+            
+            <div class="test-grid">
+                <div class="test-card">
+                    <div class="test-card-header">
+                        <i class="fas fa-book"></i>
+                        <span class="time-badge">60 minutos</span>
+                    </div>
+                    <div class="test-card-body">
+                        <h3>Prueba Teórica Básica</h3>
+                        <p>Evaluación de conocimientos teóricos básicos sobre Excel.</p>
+                    </div>
+                    <div class="test-card-footer">
+                        <a href="#" id="teoricaBasicaBtn" class="start-test-btn theory-btn" onclick="startTheoreticalTest('basico'); return false;">
+                            <i class="fas fa-pencil-alt"></i> Iniciar Prueba Teórica Básica
+                            <span class="attempts-badge">0/2 intentos</span>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="test-card">
+                    <div class="test-card-header">
+                        <i class="fas fa-book"></i>
+                        <span class="time-badge">60 minutos</span>
+                    </div>
+                    <div class="test-card-body">
+                        <h3>Prueba Teórica Intermedia</h3>
+                        <p>Evaluación de conocimientos teóricos intermedios sobre Excel.</p>
+                    </div>
+                    <div class="test-card-footer">
+                        <a href="#" id="teoricaIntermedioBtn" class="start-test-btn theory-btn" onclick="startTheoreticalTest('intermedio'); return false;">
+                            <i class="fas fa-pencil-alt"></i> Iniciar Prueba Teórica Intermedia
+                            <span class="attempts-badge">0/2 intentos</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Sección de Pruebas Prácticas -->
+            <h2 class="section-title">Pruebas Prácticas</h2>
+            
+            <div class="test-grid">
+                <div class="test-card">
+                    <div class="test-card-header">
+                        <i class="fas fa-file-excel"></i>
+                        <span class="time-badge">40 minutos</span>
+                    </div>
+                    <div class="test-card-body">
+                        <h3>Prueba Práctica - Básico</h3>
+                        <p>Ejercicios prácticos de nivel básico.</p>
+                    </div>
+                    <div class="test-card-footer">
+                        <a href="#" id="practicaBasicaBtn" class="start-test-btn basic-btn" onclick="startPracticalTest('basico'); return false;">
+                            <i class="fas fa-play"></i> Iniciar Prueba Básica
+                            <span class="attempts-badge">0/2 intentos</span>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="test-card">
+                    <div class="test-card-header">
+                        <i class="fas fa-file-excel"></i>
+                        <span class="time-badge">40 minutos</span>
+                    </div>
+                    <div class="test-card-body">
+                        <h3>Prueba Práctica - Intermedio</h3>
+                        <p>Ejercicios prácticos de nivel intermedio.</p>
+                    </div>
+                    <div class="test-card-footer">
+                        <a href="#" id="practicaIntermedioBtn" class="start-test-btn intermediate-btn" onclick="startPracticalTest('intermedio'); return false;">
+                            <i class="fas fa-play"></i> Iniciar Prueba Intermedia
+                            <span class="attempts-badge">0/2 intentos</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Sección de Proyecto Integrador -->
+            <h2 class="section-title">Proyecto Integrador</h2>
+            
+            <div class="test-grid">
+                <div class="test-card">
+                    <div class="test-card-header">
+                        <i class="fas fa-project-diagram"></i>
+                        <span class="time-badge">40 minutos</span>
+                    </div>
+                    <div class="test-card-body">
+                        <h3>Proyecto Integrador</h3>
+                        <p>Caso práctico que integra múltiples habilidades.</p>
+                    </div>
+                    <div class="test-card-footer">
+                        <a href="#" id="proyectoIntegradorBtn" class="start-test-btn project-btn" onclick="startProject(); return false;">
+                            <i class="fas fa-play"></i> Iniciar Proyecto Integrador
+                            <span class="attempts-badge">0/2 intentos</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+    
+    <script src="assets/js/dashboard.js"></script>
+</body>
+</html>

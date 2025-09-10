@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instrucciones Proyecto Integrador - Sistema de Evaluación de Excel</title>
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="stylesheet" href="assets/css/instructions.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="instructions-container">
+        <div class="instructions-header">
+            <h1>Proyecto Integrador</h1>
+            <div class="instructions-info">
+                <div class="timer-display" id="timer">40:00</div>
+                <button class="back-btn" onclick="confirmarSalida()">
+                    <i class="fas fa-arrow-left"></i> Volver al Dashboard
+                </button>
+            </div>
+        </div>
+        
+        <div class="instructions-content">
+            <div class="instructions-card">
+                <div class="instructions-section">
+                    <h2>Descripción del Proyecto</h2>
+                    <p>Este proyecto integrador evaluará sus habilidades combinadas en Excel. Deberá crear un dashboard interactivo que analice datos de ventas y presente información relevante para la toma de decisiones.</p>
+                </div>
+                
+                <div class="instructions-section">
+                    <h2>Instrucciones</h2>
+                    <ol>
+                        <li>Descargue el archivo de datos proporcionado.</li>
+                        <li>Cree un dashboard que incluya al menos 3 gráficos diferentes.</li>
+                        <li>Implemente filtros interactivos usando segmentación de datos.</li>
+                        <li>Cree al menos 2 tablas dinámicas para analizar los datos.</li>
+                        <li>Utilice fórmulas avanzadas para calcular KPIs relevantes.</li>
+                        <li>Asegúrese de que el dashboard tenga un diseño profesional y sea fácil de usar.</li>
+                    </ol>
+                </div>
+                
+                <div class="instructions-section">
+                    <h2>Criterios de Evaluación</h2>
+                    <ul>
+                        <li><strong>Funcionalidad (40%):</strong> Correcto funcionamiento de todas las características solicitadas.</li>
+                        <li><strong>Análisis de datos (30%):</strong> Calidad y relevancia de los análisis presentados.</li>
+                        <li><strong>Diseño y usabilidad (20%):</strong> Apariencia profesional y facilidad de uso.</li>
+                        <li><strong>Creatividad (10%):</strong> Elementos adicionales que mejoren el dashboard.</li>
+                    </ul>
+                </div>
+                
+                <div class="download-section">
+                    <h2>Archivo de Datos</h2>
+                    <a href="archivos/proyecto_datos.xlsx" class="download-btn" download>
+                        <i class="fas fa-download"></i> Descargar Archivo de Datos
+                    </a>
+                </div>
+                
+                <div class="start-section">
+                    <p>Tiene 40 minutos para completar este proyecto. ¡Buena suerte!</p>
+                    <button class="start-btn" onclick="iniciarProyecto()">
+                        <i class="fas fa-play"></i> Iniciar Proyecto
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="assets/js/project.js"></script>
+</body>
+</html>

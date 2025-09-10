@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prueba Teórica - Sistema de Evaluación de Excel</title>
+    <link rel="stylesheet" href="assets/css/exam_styles.css">
+    <link rel="stylesheet" href="assets/css/test_styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="test-container">
+        <div class="test-header">
+            <h1 id="testTitle">Prueba Teórica de Excel</h1>
+            <div class="test-info">
+                <div class="timer-display" id="timer">60:00</div>
+                <button class="back-btn" onclick="confirmarSalida()">
+                    <i class="fas fa-arrow-left"></i> Volver al Dashboard
+                </button>
+            </div>
+        </div>
+        
+        <div class="test-content">
+            <div class="progress-container">
+                <div class="progress-bar" id="progressBar"></div>
+            </div>
+            
+            <div id="questionContainer" class="question-container">
+                <!-- Las preguntas se cargarán dinámicamente aquí -->
+            </div>
+            
+            <div class="navigation-buttons">
+                <button class="nav-btn" id="prev-btn" disabled>Anterior</button>
+                <button class="nav-btn" id="next-btn">Siguiente</button>
+                <button class="submit-btn" id="submit-btn" style="display: none;">Finalizar Prueba</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Cargar los archivos de preguntas según el nivel -->
+    <script src="assets/js/basic_questions.js"></script>
+    <script src="assets/js/intermediate_questions.js"></script>
+    
+    <script>
+        // Variables globales
+        let currentQuestion = 1;
+        let totalQuestions = 20; // Updated from 10 to 20
+        let nivel = '';
+        let userAnswers = {};
+        let questions = [];
+        
+        // Check if user is logged in
+        window.onload = function() {
+            // Get user data from localStorage
+            const userName = localStorage.getItem('userName');
+            
+            // If no user data, redirect to login
+            if (!userName) {
+                window.location.href = 'login.html';
+                return;
+            }
+            
+            // Get nivel parameter from URL
+            const urlParams = new URLSearchParams(window.location.search);
+            nivel = urlParams.get('nivel') || 'basico';
+            
+            // Update title based on level
+            if (nivel === 'basico') {
+                document.getElementById('testTitle').textContent = 'Prueba Teórica - Nivel Básico';
+                questions = basicQuestions;
+            } else if (nivel === 'intermedio') {
+                document.getElementById('testTitle').textContent = 'Prueba Teórica - Nivel Intermedio';
+                questions = intermediateQuestions;
+            }
+            
+            // Load first question
+            loadQuestion(currentQuestion);
+            
+            // Start timer
+            startTimer(60 * 60);
+            
+            // Set up navigation buttons
+            document.getElementById('next-btn').addEventListener('click', nextQuestion);
+            document.getElementById('prev-btn').addEventListener('click', prevQuestion);
+            document.getElementById('submit-btn').addEventListener('click', submitTest);
+            
+            // Update progress bar
+            updateProgressBar();
+        };
+        
+        // Load question function
+        function loadQuestion(questionNumber) {
+            const question = questions[questionNumber - 1];
+            const container = document.getElementById('questionContainer');
+            
+            // Create question HTML
+            let html = `
+                <div class="question-number">Pregunta ${questionNumber} de ${totalQuestions}</div>
+                <div class="question-text">${question.text}</div>
+                <div class="options-container">
+            `;
+            
+            // Add options
+            question.options.forEach(option => {
+                const isChecked = userAnswers[questionNumber] === option.id ? 'checked' : '';
+                const isSelected = userAnswers[questionNumber] === option.id ? 'selected' : '';
+                
+                html += `
+                    <div class="option ${isSelected}" onclick="selectOption('q${questionNumber}-${option.id}')">
+                        <input type="radio" id="q${questionNumber}-${option.id}" name="q${questionNumber}" value="${option.id}" ${isChecked}>
+                        <label for="q${questionNumber}-${option.id}">${option.text}</label>
+                    </div>
+                `;
+            });
+            
+            html += `</div>`;
+            container.innerHTML = html;
+        }
+        
+        // Select option function
+        function selectOption(id) {
+            const optionId = id.split('-')[1]; // Get the option id (a, b, c, d)
+            userAnswers[currentQuestion] = optionId;
+            
+            // Remove selected class from all options
+            const options = document.querySelectorAll('.option');
+            options.forEach(option => {
+                option.classList.remove('selected');
+            });
+            
+            // Add selected class to clicked option
+            document.getElementById(id).closest('.option').classList.add('selected');
+            
+            // Check the radio button
+            document.getElementById(id).checked = true;
+        }
+        
+        // Timer functionality
+        function startTimer(duration) {
+            let timer = duration;
+            const display = document.getElementById('timer');
+            
+            const interval = setInterval(function() {
+                const minutes = Math.floor(timer / 60);
+                const seconds = timer % 60;
+                
+                display.textContent = 
+                    (minutes < 10 ? "0" + minutes : minutes) + ":" +
+                    (seconds < 10 ? "0" + seconds : seconds);
+                
+                if (--timer < 0) {
+                    clearInterval(interval);
+                    display.textContent = "00:00";
+                    alert("¡Se acabó el tiempo! La prueba se enviará automáticamente.");
+                    submitTest();
+                }
+            }, 1000);
+        }
+        
+        // Update progress bar
+        function updateProgressBar() {
+            const progressPercentage = (currentQuestion / totalQuestions) * 100;
+            document.getElementById('progressBar').style.width = progressPercentage + '%';
+        }
+        
+        // Navigation functions
+        function nextQuestion() {
+            if (currentQuestion < totalQuestions) {
+                currentQuestion++;
+                loadQuestion(currentQuestion);
+                updateProgressBar();
+                
+                // Update navigation buttons
+                document.getElementById('prev-btn').disabled = false;
+                
+                // Show submit button on last question
+                if (currentQuestion === totalQuestions) {
+                    document.getElementById('next-btn').style.display = 'none';
+                    document.getElementById('submit-btn').style.display = 'block';
+                }
+            }
+        }
+        
+        function prevQuestion() {
+            if (currentQuestion > 1) {
+                currentQuestion--;
+                loadQuestion(currentQuestion);
+                updateProgressBar();
+                
+                // Update navigation buttons
+                document.getElementById('prev-btn').disabled = (currentQuestion === 1);
+                document.getElementById('next-btn').style.display = 'block';
+                document.getElementById('submit-btn').style.display = 'none';
+            }
+        }
+        
+        function submitTest() {
+            if (confirm('¿Está seguro que desea finalizar la prueba?')) {
+                try {
+                    // Obtener información del usuario actual
+                    const currentUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
+                    const documento = currentUser.documento || '';
+                    
+                    // Calculate score
+                    let score = 0;
+                    let totalAnswered = 0;
+                    let resultDetails = [];
+                    
+                    for (let i = 1; i <= totalQuestions; i++) {
+                        if (userAnswers[i]) {
+                            totalAnswered++;
+                            const isCorrect = userAnswers[i] === questions[i-1].correctAnswer;
+                            if (isCorrect) {
+                                score++;
+                            }
+                            
+                            // Store details for results page
+                            resultDetails.push({
+                                questionNumber: i,
+                                questionText: questions[i-1].text,
+                                userAnswer: userAnswers[i],
+                                correctAnswer: questions[i-1].correctAnswer,
+                                isCorrect: isCorrect,
+                                options: questions[i-1].options
+                            });
+                        } else {
+                            // Unanswered questions
+                            resultDetails.push({
+                                questionNumber: i,
+                                questionText: questions[i-1].text,
+                                userAnswer: null,
+                                correctAnswer: questions[i-1].correctAnswer,
+                                isCorrect: false,
+                                options: questions[i-1].options
+                            });
+                        }
+                    }
+                    
+                    // Save results to localStorage
+                    const testResult = {
+                        documento: documento,
+                        nivel: nivel,
+                        score: score,
+                        totalQuestions: totalQuestions,
+                        totalAnswered: totalAnswered,
+                        details: resultDetails,
+                        date: new Date().toISOString()
+                    };
+                    
+                    // Store results safely
+                    try {
+                        let results = [];
+                        const existingResults = localStorage.getItem('testResults');
+                        if (existingResults) {
+                            results = JSON.parse(existingResults);
+                        }
+                        results.push(testResult);
+                        localStorage.setItem('testResults', JSON.stringify(results));
+                        
+                        // Store current result for results page
+                        localStorage.setItem('currentTestResult', JSON.stringify(testResult));
+                        
+                        console.log("Prueba guardada correctamente:", testResult);
+                        
+                        // Navigate to results page
+                        window.location.href = 'resultados_examen.html';
+                    } catch (storageError) {
+                        console.error("Error storing results:", storageError);
+                        alert(`Prueba finalizada.\nPuntuación: ${score} de ${totalQuestions}\nRespuestas correctas: ${score}`);
+                        window.location.href = 'dashboard.html';
+                    }
+                } catch (error) {
+                    // Fallback if there's an error in the main process
+                    console.error("Error processing test results:", error);
+                    alert("Ha ocurrido un error al procesar los resultados. Volviendo al dashboard.");
+                    window.location.href = 'dashboard.html';
+                }
+            }
+        }
+        
+        // Confirm exit
+        function confirmarSalida() {
+            if (confirm("¿Está seguro que desea salir? Su progreso no se guardará.")) {
+                window.location.href = 'dashboard.html';
+            }
+        }
+    </script>
+</body>
+</html>

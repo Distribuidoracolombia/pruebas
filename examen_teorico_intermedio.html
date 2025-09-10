@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prueba Teórica Intermedia - Excel</title>
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="stylesheet" href="assets/css/examen.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="exam-container">
+        <div class="exam-header">
+            <h1>Prueba Teórica Intermedia</h1>
+            <div class="timer-container">
+                <div class="timer">
+                    <i class="fas fa-clock"></i>
+                    <span id="timer">60:00</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="exam-content">
+            <div class="question-container" id="questionContainer">
+                <!-- Questions will be loaded here dynamically -->
+                <div class="loading">
+                    <i class="fas fa-spinner fa-spin"></i>
+                    <p>Cargando preguntas...</p>
+                </div>
+            </div>
+            
+            <div class="exam-navigation">
+                <button id="prevBtn" class="nav-btn" disabled>
+                    <i class="fas fa-arrow-left"></i> Anterior
+                </button>
+                <div class="question-indicators" id="questionIndicators">
+                    <!-- Question indicators will be added here -->
+                </div>
+                <button id="nextBtn" class="nav-btn">
+                    Siguiente <i class="fas fa-arrow-right"></i>
+                </button>
+            </div>
+            
+            <div class="exam-actions">
+                <button id="finishBtn" class="finish-btn">
+                    <i class="fas fa-check-circle"></i> Finalizar Prueba
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Confirmation Modal -->
+    <div class="modal" id="confirmationModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Confirmar Finalización</h2>
+                <span class="close-modal">&times;</span>
+            </div>
+            <div class="modal-body">
+                <p>¿Está seguro que desea finalizar la prueba?</p>
+                <p class="warning-text">Las preguntas sin responder se marcarán como incorrectas.</p>
+                <div id="unansweredQuestions"></div>
+            </div>
+            <div class="modal-footer">
+                <button id="cancelFinish" class="cancel-btn">Cancelar</button>
+                <button id="confirmFinish" class="confirm-btn">Finalizar Prueba</button>
+            </div>
+        </div>
+    </div>
+    
+    <script src="assets/js/examen_teorico_intermedio.js"></script>
+</body>
+</html>
