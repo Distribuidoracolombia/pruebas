@@ -1,0 +1,342 @@
+
+/* Modern Dashboard Styles */
+body {
+    background-color: #f5f7fa;
+    font-family: 'Poppins', sans-serif;
+}
+
+.dashboard-container {
+    max-width: 1200px;
+    margin: 2rem auto;
+    background-color: white;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+}
+
+/* Header Styles */
+.dashboard-header {
+    background: linear-gradient(135deg, #16a085, #1abc9c);
+    color: white;
+    padding: 1.5rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.dashboard-header h1 {
+    margin: 0;
+    font-size: 1.8rem;
+    color: white;
+    font-weight: 600;
+}
+
+.user-profile {
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+.user-avatar {
+    font-size: 2rem;
+    margin-right: 0.8rem;
+    color: white;
+}
+
+.user-info-dropdown {
+    position: relative;
+    cursor: pointer;
+}
+
+.user-info-dropdown span {
+    font-weight: 500;
+    font-size: 1.1rem;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    right: 0;
+    top: 130%;
+    background-color: white;
+    min-width: 250px;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    z-index: 1;
+    padding: 1rem;
+}
+
+.user-info-dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.user-details p {
+    margin: 0.5rem 0;
+    color: #333;
+}
+
+.logout-btn {
+    display: block;
+    width: 100%;
+    padding: 0.8rem;
+    margin-top: 1rem;
+    background-color: #f8f9fa;
+    color: #e74c3c;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s;
+    text-align: left;
+}
+
+.logout-btn:hover {
+    background-color: #fee;
+}
+
+/* Dashboard Content */
+.dashboard-content {
+    padding: 2rem;
+}
+
+/* Timer Card */
+.timer-card {
+    background: linear-gradient(135deg, #2c3e50, #1a1a2e);
+    color: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    display: flex;
+    align-items: center;
+    margin-bottom: 2rem;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+.timer-icon {
+    font-size: 2.5rem;
+    margin-right: 1.5rem;
+    color: #f39c12;
+}
+
+.timer-info h2 {
+    margin: 0 0 0.5rem 0;
+    font-size: 1.3rem;
+    color: white;
+    font-weight: 500;
+}
+
+.timer-display {
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: #f39c12;
+    font-family: 'Courier New', monospace;
+}
+
+/* Section Title */
+.section-title {
+    font-size: 1.6rem;
+    margin: 2rem 0 1.5rem;
+    color: #1a1a2e;
+    position: relative;
+    padding-bottom: 0.8rem;
+}
+
+.section-title:after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 60px;
+    height: 3px;
+    background: #16a085;
+    border-radius: 1.5px;
+}
+
+/* Test Grid */
+.test-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.test-card {
+    background-color: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s;
+    border: 1px solid #eee;
+    display: flex;
+    flex-direction: column;
+}
+
+.test-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.1);
+    border-color: #16a085;
+}
+
+.test-card-header {
+    background-color: #f8f9fa;
+    padding: 1.2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.test-card-header i {
+    font-size: 1.8rem;
+    color: #16a085;
+}
+
+.time-badge {
+    background-color: #16a085;
+    color: white;
+    padding: 0.3rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+.test-card-body {
+    padding: 1.2rem;
+    flex-grow: 1;
+}
+
+.test-card-body h3 {
+    margin-top: 0;
+    margin-bottom: 0.8rem;
+    font-size: 1.3rem;
+    color: #1a1a2e;
+}
+
+.test-card-body p {
+    color: #666;
+    margin-bottom: 0;
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
+.test-card-footer {
+    padding: 1.2rem;
+    background-color: #f8f9fa;
+}
+
+.start-test-btn {
+    width: 100%;
+    padding: 0.8rem;
+    background: linear-gradient(135deg, #16a085, #1abc9c);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s;
+    text-decoration: none;
+    display: inline-block;
+    text-align: center;
+}
+
+.start-test-btn:hover {
+    box-shadow: 0 5px 15px rgba(22, 160, 133, 0.3);
+    transform: translateY(-3px);
+}
+
+.start-test-btn:active {
+    transform: translateY(-1px);
+}
+
+.start-test-btn i {
+    margin-right: 8px;
+}
+
+/* Add specific button styles for different test types */
+.theory-btn {
+    background: linear-gradient(135deg, #16a085, #1abc9c);
+}
+
+.basic-btn {
+    background: linear-gradient(135deg, #3498db, #2980b9);
+}
+
+.intermediate-btn {
+    background: linear-gradient(135deg, #9b59b6, #8e44ad);
+}
+
+.project-btn {
+    background: linear-gradient(135deg, #f39c12, #e67e22);
+}
+
+/* Results Section */
+.results-section {
+    margin-top: 3rem;
+}
+
+.results-card {
+    background-color: white;
+    border-radius: 12px;
+    padding: 2rem;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    border: 1px solid #eee;
+}
+
+.empty-results {
+    text-align: center;
+    padding: 2rem 0;
+}
+
+.empty-results i {
+    font-size: 3rem;
+    color: #ddd;
+    margin-bottom: 1rem;
+}
+
+.empty-results p {
+    color: #999;
+    font-size: 1.1rem;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .dashboard-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .dashboard-header h1 {
+        margin-bottom: 1rem;
+    }
+    
+    .user-profile {
+        align-self: flex-end;
+    }
+    
+    .timer-card {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .timer-icon {
+        margin-right: 0;
+        margin-bottom: 1rem;
+    }
+    
+    .test-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.attempts-badge {
+    background-color: rgba(255, 255, 255, 0.2);
+    color: white;
+    padding: 3px 8px;
+    border-radius: 12px;
+    font-size: 12px;
+    margin-left: 8px;
+    display: inline-block;
+}
+
+.disabled {
+    opacity: 0.6 !important;
+    cursor: not-allowed !important;
+    pointer-events: none !important;
+}

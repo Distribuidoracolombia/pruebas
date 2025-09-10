@@ -1,0 +1,289 @@
+/* Instructions Page Styles */
+body {
+    background-color: #f5f7fa;
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.instructions-container {
+    max-width: 900px;
+    margin: 2rem auto;
+    background-color: white;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+}
+
+/* Header Styles */
+.instructions-header {
+    background: linear-gradient(135deg, #16a085, #1abc9c);
+    color: white;
+    padding: 1.5rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.instructions-header h1 {
+    margin: 0;
+    font-size: 1.8rem;
+    font-weight: 600;
+}
+
+.instructions-info {
+    display: flex;
+    align-items: center;
+}
+
+.timer-display {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: white;
+    background-color: rgba(0, 0, 0, 0.2);
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    margin-right: 1rem;
+    font-family: 'Courier New', monospace;
+}
+
+.back-btn {
+    background-color: rgba(255, 255, 255, 0.2);
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+}
+
+.back-btn i {
+    margin-right: 0.5rem;
+}
+
+.back-btn:hover {
+    background-color: rgba(255, 255, 255, 0.3);
+}
+
+/* Content Styles */
+.instructions-content {
+    padding: 2rem;
+}
+
+.instructions-card {
+    border-radius: 12px;
+    background-color: white;
+}
+
+.instructions-section {
+    margin-bottom: 2rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid #eee;
+}
+
+.instructions-section:last-of-type {
+    border-bottom: none;
+}
+
+.instructions-section h2 {
+    color: #16a085;
+    font-size: 1.4rem;
+    margin-bottom: 1rem;
+}
+
+.instructions-section p {
+    color: #555;
+    line-height: 1.6;
+    margin-bottom: 1rem;
+}
+
+.instructions-section ol,
+.instructions-section ul {
+    color: #555;
+    line-height: 1.6;
+    padding-left: 1.5rem;
+}
+
+.instructions-section li {
+    margin-bottom: 0.8rem;
+}
+
+.instructions-section strong {
+    color: #333;
+}
+
+/* Download Section */
+.download-section {
+    margin-bottom: 2rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid #eee;
+    text-align: center;
+}
+
+.download-btn {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.8rem 1.5rem;
+    background-color: #3498db;
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: 500;
+    transition: all 0.3s;
+}
+
+.download-btn i {
+    margin-right: 0.5rem;
+    font-size: 1.1rem;
+}
+
+.download-btn:hover {
+    background-color: #2980b9;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(52, 152, 219, 0.3);
+}
+
+/* Start Section */
+.start-section {
+    text-align: center;
+}
+
+.start-section p {
+    color: #555;
+    margin-bottom: 1.5rem;
+}
+
+.start-btn {
+    padding: 1rem 2rem;
+    background: linear-gradient(135deg, #16a085, #1abc9c);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+    display: inline-flex;
+    align-items: center;
+}
+
+.start-btn i {
+    margin-right: 0.8rem;
+}
+
+.start-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(22, 160, 133, 0.3);
+}
+
+/* Level Badge */
+.level-badge {
+    display: inline-block;
+    padding: 0.3rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    margin-left: 1rem;
+}
+
+.level-badge.basic {
+    background-color: #3498db;
+    color: white;
+}
+
+.level-badge.intermediate {
+    background-color: #f39c12;
+    color: white;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .instructions-container {
+        margin: 1rem;
+        border-radius: 12px;
+    }
+    
+    .instructions-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .instructions-info {
+        margin-top: 1rem;
+        width: 100%;
+        justify-content: space-between;
+    }
+    
+    .instructions-content {
+        padding: 1.5rem;
+    }
+}
+
+/* Estilos para la sección de carga de archivos */
+.upload-section {
+    margin-top: 30px;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.file-upload {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.file-upload input[type="file"] {
+    display: none;
+}
+
+.file-upload label {
+    padding: 10px 15px;
+    background-color: #2196F3;
+    color: white;
+    border-radius: 4px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: background-color 0.2s;
+}
+
+.file-upload label:hover {
+    background-color: #1976D2;
+}
+
+.file-upload span {
+    margin-left: 10px;
+    color: #555;
+    font-style: italic;
+}
+
+.submit-btn {
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background-color 0.2s;
+}
+
+.submit-btn:hover {
+    background-color: #388E3C;
+}
+
+.submit-btn:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+}
+
+.highlight {
+    color: #FF5722;
+    font-weight: bold;
+}
