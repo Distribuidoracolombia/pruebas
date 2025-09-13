@@ -66,16 +66,8 @@ function submitTest() {
             
             console.log("Prueba teórica guardada correctamente:", testResult);
             
-            // Enviar resultados por correo
-            sendResultsByEmail(testResult).then(emailSent => {
-                // Marcar si el correo fue enviado
-                testResult.emailSent = emailSent;
-                localStorage.setItem('currentTestResult', JSON.stringify(testResult));
-                
-                // Navegar a la página de resultados
-                window.location.href = 'resultados_examen.html';
-            });
-            
+            // Navegar a la página de resultados
+            window.location.href = 'resultados_examen.html';
         } catch (storageError) {
             console.error("Error al almacenar resultados:", storageError);
             alert(`Prueba finalizada.\nPuntuación: ${score} de ${totalQuestions}\nRespuestas correctas: ${score}`);
@@ -133,33 +125,28 @@ let questions = [];
 let timerInterval;
 
 window.onload = function() {
-    // Inicializar EmailJS
-    initEmailJS();
+    // Get user data from localStorage
+    const currentUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
+    const userDocument = currentUser.documento || localStorage.getItem('userDocument');
     
-    // Obtener datos del usuario
-    const userData = JSON.parse(localStorage.getItem('userData'));
-    if (!userData) {
+    // If no user data, redirect to login
+    if (!userDocument) {
         alert('Debe iniciar sesión para realizar la prueba.');
         window.location.href = 'login.html';
         return;
     }
     
-    // Obtener nivel del parámetro URL o de window.nivelExamen
+    // Get nivel parameter from URL
     const urlParams = new URLSearchParams(window.location.search);
     nivel = urlParams.get('nivel') || window.nivelExamen || 'basico';
     
-    // Check if this is an administrator test from localStorage
-    const testInfo = JSON.parse(localStorage.getItem('currentTestInfo') || '{}');
+    // Get test info from localStorage for administrator exam
+    const testInfo = JSON.parse(localStorage.getItem('currentTest') || '{}');
     if (testInfo.level === 'administrador') {
         nivel = 'administrador';
     }
     
-    // Check attempts before proceeding
-    if (!checkAttempts()) {
-        return;
-    }
-    
-    // Load questions based on level
+    // Set questions based on level
     if (nivel === 'basico') {
         questions = basicQuestions;
     } else if (nivel === 'intermedio') {
@@ -376,36 +363,4 @@ function confirmarSalida() {
     if (confirm("¿Está seguro que desea salir? Su progreso no se guardará.")) {
         window.location.href = 'dashboard.html';
     }
-}
-
-// Inicializar EmailJS
-function initEmailJS() {
-    emailjs.init({
-        publicKey: 'ujydeP8ESBAm8HttQ', // Reemplaza con tu Public Key de EmailJS
-    });
-}
-
-// Función para enviar resultados por correo
-function sendResultsByEmail(testResult) {
-    const templateParams = {
-        to_email: 'auxsistemas@luma.com.co', // Correo destino
-        user_name: testResult.documento,
-        test_level: testResult.nivel,
-        score: testResult.score,
-        total_questions: testResult.totalQuestions,
-        percentage: Math.round((testResult.score / testResult.totalQuestions) * 100),
-        date: new Date(testResult.date).toLocaleDateString('es-ES'),
-        time: new Date(testResult.date).toLocaleTimeString('es-ES'),
-        status: (testResult.score / testResult.totalQuestions) >= 0.7 ? 'APROBADO' : 'REPROBADO'
-    };
-
-    return emailjs.send('service_gu2z3bu', 'template_nh327cj', templateParams)
-        .then(function(response) {
-            console.log('Correo enviado exitosamente:', response.status, response.text);
-            return true;
-        })
-        .catch(function(error) {
-            console.error('Error al enviar correo:', error);
-            return false;
-        });
 }
