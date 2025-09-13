@@ -360,7 +360,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 <h2 style="color: #333; text-align: center; border-bottom: 2px solid #4CAF50; padding-bottom: 10px;">Resultados del Examen Teórico</h2>
                 
                 <div style="background-color: #f9f9f9; padding: 15px; border-radius: 5px; margin: 20px 0;">
-                    <h3 style="color: #555; margin-top: 0;">Información del Estudiante</h3>
+                    <h3 style="color: #555; margin-top: 0;">Información del postulante</h3>
                     <p><strong>Nombre:</strong> ${userName}</p>
                     <p><strong>Documento:</strong> ${userDocument}</p>
                     <p><strong>Nivel del Examen:</strong> ${results.nivel.charAt(0).toUpperCase() + results.nivel.slice(1)}</p>
@@ -410,4 +410,5 @@ document.addEventListener('DOMContentLoaded', function() {
         
         return html;
     }
+
 });
