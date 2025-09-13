@@ -65,11 +65,13 @@ function actualizarInterfaz() {
     if (nivel === 'intermedio') {
         levelBadge.textContent = 'Nivel Intermedio';
         levelBadge.className = 'level-badge intermediate';
-        downloadLink.href = 'assets/files/ejercicio_intermedio.xlsx';
+        downloadLink.href = 'archivos/ejercicio_intermedio.XLSX'; // Corregida la extensión
+        downloadLink.download = 'ejercicio_intermedio.XLSX';
     } else {
         levelBadge.textContent = 'Nivel Básico';
         levelBadge.className = 'level-badge basic';
-        downloadLink.href = 'assets/files/ejercicio_basico.xlsx';
+        downloadLink.href = 'archivos/ejercicio_basico.xlsx';
+        downloadLink.download = 'ejercicio_basico.xlsx';
     }
     
     testTitle.innerHTML = `Prueba Práctica <span id="levelBadge" class="${levelBadge.className}">${levelBadge.textContent}</span>`;

@@ -259,9 +259,14 @@ body {
 }
 
 .intermediate-btn {
-    background: linear-gradient(135deg, #9b59b6, #8e44ad);
+    background: linear-gradient(135deg, #8e44ad, #9b59b6);
+    color: white;
 }
 
+.admin-btn:hover {
+    background: linear-gradient(135deg, #7d3c98, #8e44ad);
+    transform: translateY(-2px);
+}
 .project-btn {
     background: linear-gradient(135deg, #f39c12, #e67e22);
 }

@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Prueba Teórica Intermedia - Excel</title>
-    <link rel="stylesheet" href="assets/css/styles.css">
+    <title>Examen de Administrador de Punto de Venta</title>
     <link rel="stylesheet" href="assets/css/exam_styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -12,25 +11,23 @@
 <body>
     <div class="test-container">
         <div class="test-header">
-            <h1>Prueba Teórica Intermedia</h1>
+            <h1>Examen de Administrador de Punto de Venta</h1>
             <div class="test-info">
-                <div class="timer-display" id="timer">60:00</div>
-                <button class="back-btn" onclick="confirmarSalida()">
-                    <i class="fas fa-arrow-left"></i> Volver al Dashboard
-                </button>
+                <div class="timer-display" id="timer">30:00</div>
+                <button class="back-btn" onclick="confirmarSalida()"><i class="fas fa-arrow-left"></i> Volver</button>
             </div>
         </div>
         
         <div class="test-content">
             <div class="question-container" id="questionContainer">
-                <!-- Preguntas cargadas dinámicamente -->
+                <!-- Question content will be loaded dynamically -->
                 <div class="loading">
                     <i class="fas fa-spinner fa-spin"></i>
                     <p>Cargando preguntas...</p>
                 </div>
             </div>
             
-             <div class="navigation-buttons">
+            <div class="navigation-buttons">
                 <button id="prevBtn" class="nav-btn" onclick="prevQuestion()"><i class="fas fa-arrow-left"></i> Anterior</button>
                 <div class="question-indicators" id="questionIndicators">
                     <!-- Question indicators will be added dynamically -->
@@ -62,14 +59,12 @@
             </div>
         </div>
     </div>
-    
-    <!-- Load questions based on level -->
-    <script src="assets/js/intermediate_questions.js"></script>
-    
-    <!-- EmailJS Library -->
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
+    <!-- Load questions for administrator exam -->
+    <script src="assets/js/admin_questions.js"></script>
     
     <!-- Main script -->
     <script src="assets/js/examen_teorico.js"></script>
+ 
 </body>
 </html>

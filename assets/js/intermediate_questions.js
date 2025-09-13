@@ -1,3 +1,5 @@
+// ✅ Archivo corregido: intermediate_questions.js
+
 // Preguntas para el nivel intermedio de Excel
 const intermediateQuestions = [
     {
@@ -189,14 +191,14 @@ const intermediateQuestions = [
     },
     {
         id: 18,
-        text: "¿Qué función se utiliza para combinar texto de diferentes celdas?",
+        text: "¿Qué función devuelve el valor máximo de un rango de celdas?",
         options: [
-            { id: "a", text: "=UNIR()" },
-            { id: "b", text: "=CONCATENAR()" },
-            { id: "c", text: "=COMBINAR()" },
-            { id: "d", text: "=JUNTAR()" }
+            { id: "a", text: "=MIN()" },
+            { id: "b", text: "=PROMEDIO()" },
+            { id: "c", text: "=MAX()" },
+            { id: "d", text: "=SUMA()" }
         ],
-        correctAnswer: "b"
+        correctAnswer: "c"
     },
     {
         id: 19,
@@ -211,13 +213,13 @@ const intermediateQuestions = [
     },
     {
         id: 20,
-        text: "¿Qué función se utiliza para calcular pagos de préstamos?",
+        text: "¿Qué función devuelve la media aritmética de un rango de celdas?",
         options: [
-            { id: "a", text: "=PAGO()" },
-            { id: "b", text: "=VF()" },
-            { id: "c", text: "=TASA()" },
-            { id: "d", text: "=VA()" }
+            { id: "a", text: "=MAX()" },
+            { id: "b", text: "=MIN()" },
+            { id: "c", text: "=PROMEDIO()" },
+            { id: "d", text: "=MEDIANA()" }
         ],
-        correctAnswer: "a"
+        correctAnswer: "c"
     }
 ];

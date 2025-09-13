@@ -4,15 +4,51 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sistema de Evaluación de Excel</title>
-    <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="test_styles.css">
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="stylesheet" href="assets/css/test_styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        .loader-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f5f5f5;
+        }
+        .loader {
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid var(--luma-green);
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin-bottom: 20px;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .loader-text {
+            font-family: var(--font-primary);
+            font-size: 18px;
+            color: var(--gray-dark);
+        }
+    </style>
     <script>
-        // Redirect to login page
-        window.location.href = 'login.html';
+        // Redirect to login page after a short delay
+        window.onload = function() {
+            setTimeout(function() {
+                window.location.href = 'login.html';
+            }, 1500); // Redirect after 1.5 seconds
+        };
     </script>
 </head>
 <body>
-    <!-- Content will not be shown due to redirect -->
+    <div class="loader-container">
+        <div class="loader"></div>
+        <div class="loader-text">Cargando Sistema de Evaluación...</div>
+    </div>
 </body>
 </html>

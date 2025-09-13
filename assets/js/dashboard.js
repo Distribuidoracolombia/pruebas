@@ -21,7 +21,6 @@ window.onload = function() {
 };
 
 // Function to check test attempts
-// Function to check test attempts
 function checkTestAttempts(testType, nivel) {
     const userDocument = localStorage.getItem('userDocument');
     
@@ -49,15 +48,15 @@ function checkTestAttempts(testType, nivel) {
         
         console.log(`Practical attempts for ${userDocument}, level ${nivel}: ${attempts}`);
         console.log('Practical results:', practicalResults);
-    } else if (testType === 'proyecto') {
-        // Check project attempts
-        const projectResults = JSON.parse(localStorage.getItem('projectResults') || '[]');
-        attempts = projectResults.filter(result => 
+    } else if (testType === 'administrador') {
+        // Check administrator test attempts
+        const adminResults = JSON.parse(localStorage.getItem('adminResults') || '[]');
+        attempts = adminResults.filter(result => 
             result.documento === userDocument
         ).length;
         
-        console.log(`Project attempts for ${userDocument}: ${attempts}`);
-        console.log('Project results:', projectResults);
+        console.log(`Administrator attempts for ${userDocument}: ${attempts}`);
+        console.log('Administrator results:', adminResults);
     }
     
     return attempts;
@@ -65,44 +64,27 @@ function checkTestAttempts(testType, nivel) {
 
 // Function to update test buttons based on attempts
 function updateTestButtons() {
+    const userDocument = localStorage.getItem('userDocument');
+    
+    if (!userDocument) return;
+    
     // Update theoretical test buttons
-    const teoricaBasicaBtn = document.getElementById('teoricaBasicaBtn');
-    const teoricaIntermedioBtn = document.getElementById('teoricaIntermedioBtn');
+    const teoricaBasicaAttempts = checkTestAttempts('teorica', 'basico');
+    const teoricaIntermedioAttempts = checkTestAttempts('teorica', 'intermedio');
     
     // Update practical test buttons
-    const practicaBasicaBtn = document.getElementById('practicaBasicaBtn');
-    const practicaIntermedioBtn = document.getElementById('practicaIntermedioBtn');
+    const practicaBasicaAttempts = checkTestAttempts('practica', 'basico');
+    const practicaIntermedioAttempts = checkTestAttempts('practica', 'intermedio');
     
-    // Update project button
-    const proyectoIntegradorBtn = document.getElementById('proyectoIntegradorBtn');
+    // Update administrator test button
+    const administradorAttempts = checkTestAttempts('administrador', 'administrador');
     
-    // Check attempts for each test type
-    const basicoTeoricoAttempts = checkTestAttempts('teorica', 'basico');
-    const intermedioTeoricoAttempts = checkTestAttempts('teorica', 'intermedio');
-    const basicoPracticoAttempts = checkTestAttempts('practica', 'basico');
-    const intermedioPracticoAttempts = checkTestAttempts('practica', 'intermedio');
-    const proyectoAttempts = checkTestAttempts('proyecto', '');
-    
-    // Update button states and text
-    if (teoricaBasicaBtn) {
-        updateButtonState(teoricaBasicaBtn, basicoTeoricoAttempts, 'Iniciar Prueba Teórica Básica');
-    }
-    
-    if (teoricaIntermedioBtn) {
-        updateButtonState(teoricaIntermedioBtn, intermedioTeoricoAttempts, 'Iniciar Prueba Teórica Intermedia');
-    }
-    
-    if (practicaBasicaBtn) {
-        updateButtonState(practicaBasicaBtn, basicoPracticoAttempts, 'Iniciar Prueba Básica');
-    }
-    
-    if (practicaIntermedioBtn) {
-        updateButtonState(practicaIntermedioBtn, intermedioPracticoAttempts, 'Iniciar Prueba Intermedia');
-    }
-    
-    if (proyectoIntegradorBtn) {
-        updateButtonState(proyectoIntegradorBtn, proyectoAttempts, 'Iniciar Proyecto Integrador');
-    }
+    // Update button states
+    updateButtonState(document.getElementById('teoricaBasicaBtn'), teoricaBasicaAttempts, 'Prueba Teórica Básica');
+    updateButtonState(document.getElementById('teoricaIntermedioBtn'), teoricaIntermedioAttempts, 'Prueba Teórica Intermedia');
+    updateButtonState(document.getElementById('practicaBasicaBtn'), practicaBasicaAttempts, 'Prueba Práctica Básica');
+    updateButtonState(document.getElementById('practicaIntermedioBtn'), practicaIntermedioAttempts, 'Prueba Práctica Intermedia');
+    updateButtonState(document.getElementById('administradorBtn'), administradorAttempts, 'Examen de Administrador');
 }
 
 // Function to update button state based on attempts
@@ -110,7 +92,7 @@ function updateButtonState(button, attempts, testName) {
     // Find the icon element
     const iconHTML = button.innerHTML.split('</i>')[0] + '</i> ';
     
-    if (attempts >= 2) {
+    if (attempts >=2) {
         button.disabled = true;
         button.classList.add('disabled');
         button.innerHTML = iconHTML + testName + ' <span class="attempts-badge">Límite alcanzado</span>';
@@ -252,6 +234,12 @@ function startPracticalTest(level) {
     
     const userId = userData.documento;
     
+    // Store current user for instructions page
+    localStorage.setItem('currentUser', JSON.stringify({
+        documento: userData.documento,
+        nombre: userData.nombre
+    }));
+    
     // Get attempts from localStorage
     const attempts = JSON.parse(localStorage.getItem(`attempts_${userId}`)) || {
         teoricaBasico: 0,
@@ -263,7 +251,7 @@ function startPracticalTest(level) {
     
     // Check if max attempts reached
     const attemptKey = level === 'basico' ? 'practicaBasico' : 'practicaIntermedio';
-    if (attempts[attemptKey] >= 2) {
+    if (attempts[attemptKey] >= 10) {
         alert('Ha alcanzado el máximo de intentos permitidos para esta prueba');
         return;
     }
@@ -283,8 +271,8 @@ function startPracticalTest(level) {
     
     localStorage.setItem('currentTest', JSON.stringify(testInfo));
     
-    // Redirect to the appropriate test page
-    window.location.href = `examen_practico_${level}.html`;
+    // Redirect to instructions page with level parameter
+    window.location.href = `instrucciones_practicas.html?nivel=${level}`;
 }
 
 // Function to start integrator project
@@ -329,6 +317,52 @@ function startProject() {
     
     // Redirect to the project page
     window.location.href = 'proyecto_integrador.html';
+}
+
+// Function to start administrator test
+function startAdministratorTest() {
+    const userData = JSON.parse(localStorage.getItem('userData'));
+    if (!userData || !userData.documento) {
+        alert('Debe iniciar sesión para realizar la prueba');
+        window.location.href = 'index.html';
+        return;
+    }
+    
+    const userId = userData.documento;
+    
+    // Get attempts from localStorage
+    const attempts = JSON.parse(localStorage.getItem(`attempts_${userId}`)) || {
+        teoricaBasico: 0,
+        teoricaIntermedio: 0,
+        practicaBasico: 0,
+        practicaIntermedio: 0,
+        administrador: 0,
+        proyecto: 0
+    };
+    
+    // Check if max attempts reached
+    if (attempts.administrador >= 2) {
+        alert('Ha alcanzado el máximo de intentos permitidos para esta prueba');
+        return;
+    }
+    
+    // Increment attempt count
+    attempts.administrador++;
+    localStorage.setItem(`attempts_${userId}`, JSON.stringify(attempts));
+    
+    // Store test information
+    const testInfo = {
+        type: 'administrador',
+        level: 'administrador',
+        userId: userId,
+        startTime: new Date().getTime(),
+        timeLimit: 30 * 60 * 1000 // 30 minutes in milliseconds
+    };
+    
+    localStorage.setItem('currentTest', JSON.stringify(testInfo));
+    
+    // Redirect to the administrator test page
+    window.location.href = 'examen_administrador.html';
 }
 
 // Function to log out

@@ -4,56 +4,52 @@ document.addEventListener('DOMContentLoaded', function() {
     loadTestResults();
     
     // Get references to buttons
-    const playAgainBtn = document.getElementById('playAgainBtn');
-    const shareResultsBtn = document.getElementById('shareResultsBtn');
-    const acceptBtn = document.getElementById('acceptBtn');
+    const retryBtn = document.getElementById('retryBtn');
+    const dashboardBtn = document.getElementById('dashboardBtn');
     
     // Add event listeners to buttons
-    if (playAgainBtn) {
-        playAgainBtn.addEventListener('click', function() {
-            // Handle play again functionality - return to dashboard
+    if (retryBtn) {
+        retryBtn.addEventListener('click', function() {
+            // Get test type from URL parameter
+            const urlParams = new URLSearchParams(window.location.search);
+            const testType = urlParams.get('type') || 'teorico';
+            const level = urlParams.get('level') || 'basico';
+            
+            // Redirect to appropriate test page based on type and level
+            if (testType === 'teorico') {
+                window.location.href = `examen_teorico_${level}.html`;
+            } else if (testType === 'practico') {
+                window.location.href = 'instrucciones_practicas.html?level=' + level;
+            } else {
+                window.location.href = 'instrucciones_proyecto.html';
+            }
+        });
+    }
+    
+    if (dashboardBtn) {
+        dashboardBtn.addEventListener('click', function() {
+            // Return to dashboard
             window.location.href = 'dashboard.html';
-        });
-    }
-    
-    if (shareResultsBtn) {
-        shareResultsBtn.addEventListener('click', function() {
-            // Handle share results functionality
-            shareResults();
-        });
-    }
-    
-    if (acceptBtn) {
-        acceptBtn.addEventListener('click', function() {
-            // Handle accept button click
-            window.location.href = 'index.html';
         });
     }
     
     // Function to load test results
     function loadTestResults() {
-        // Get test ID from URL parameter
-        const urlParams = new URLSearchParams(window.location.search);
-        const testId = urlParams.get('testId');
+        // Get current test result from localStorage
+        const currentTestResult = localStorage.getItem('currentTestResult');
         
-        if (!testId) {
-            showError("No se encontró el ID de la prueba");
+        if (!currentTestResult) {
+            showError("No se encontraron resultados de la prueba");
             return;
         }
         
-        // Fetch test results from server or local storage
-        fetchTestResults(testId)
-            .then(results => {
-                if (results) {
-                    displayResults(results);
-                } else {
-                    showError("No se encontraron resultados para esta prueba");
-                }
-            })
-            .catch(error => {
-                console.error("Error loading test results:", error);
-                showError("Error al cargar los resultados");
-            });
+        try {
+            const results = JSON.parse(currentTestResult);
+            displayResults(results);
+        } catch (error) {
+            console.error("Error parsing test results:", error);
+            showError("Error al cargar los resultados");
+        }
     }
     
     // Function to fetch test results (from API or localStorage)
@@ -78,83 +74,181 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Function to display results in the UI
     function displayResults(results) {
-        // Hide error message if it was shown
-        const messageElement = document.querySelector('.message');
-        if (messageElement) {
-            messageElement.style.display = 'none';
+        // Update test info
+        const testTypeElement = document.querySelector('.test-type');
+        const testLevelElement = document.querySelector('.test-level');
+        
+        if (testTypeElement) {
+            testTypeElement.textContent = 'Examen Teórico';
         }
         
-        // Update percentage
-        const percentageElement = document.querySelector('.percentage');
-        if (percentageElement) {
-            percentageElement.textContent = `Porcentaje: ${results.percentage}%`;
+        if (testLevelElement && results.nivel) {
+            testLevelElement.textContent = results.nivel === 'basico' ? 'Nivel Básico' : 
+                                          results.nivel === 'intermedio' ? 'Nivel Intermedio' : 
+                                          results.nivel === 'administrador' ? 'Administrador' : 'Avanzado';
         }
         
-        // Update questions answered
-        const respondentsElement = document.querySelector('.respondents div:last-child');
-        if (respondentsElement) {
-            respondentsElement.textContent = `${results.answered} de ${results.total}`;
+        // Calculate percentage
+        const percentage = results.totalQuestions > 0 ? (results.score / results.totalQuestions) * 100 : 0;
+        
+        // Update score circle and value
+        const scoreValue = document.querySelector('.score-value');
+        const scoreCircle = document.querySelector('.score-circle');
+        
+        if (scoreValue) {
+            scoreValue.textContent = `${Math.round(percentage)}%`;
         }
         
-        // Update score icon based on pass/fail
-        const scoreIcon = document.querySelector('.score-icon');
-        if (scoreIcon) {
-            scoreIcon.src = results.percentage >= 70 ? 'assets/img/check-icon.svg' : 'assets/img/error-icon.svg';
+        if (scoreCircle) {
+            // Update the conic gradient to reflect the score percentage
+            const roundedPercentage = Math.round(percentage);
+            scoreCircle.style.background = `conic-gradient(#4CAF50 0% ${roundedPercentage}%, #e0e0e0 ${roundedPercentage}% 100%)`;
         }
         
-        // Display detailed answers
-        displayDetailedAnswers(results.answers);
+        // Update score label based on percentage
+        const scoreLabel = document.getElementById('scoreLabel');
+        if (scoreLabel) {
+            if (percentage >= 70) {
+                scoreLabel.textContent = 'Aprobado';
+                scoreLabel.style.color = '#4CAF50';
+            } else {
+                scoreLabel.textContent = 'Necesita mejorar';
+                scoreLabel.style.color = '#f44336';
+            }
+        }
+        
+        // Update details
+        const answeredQuestions = document.getElementById('answeredQuestions');
+        const correctAnswers = document.getElementById('correctAnswers');
+        
+        if (answeredQuestions) {
+            answeredQuestions.textContent = `${results.totalAnswered} de ${results.totalQuestions}`;
+        }
+        
+        if (correctAnswers) {
+            correctAnswers.textContent = `${results.score}`;
+        }
+        
+        // Update answers list if available
+        if (results.details && results.details.length > 0) {
+            displayAnswers(results.details);
+        }
     }
     
-    // Function to display detailed answers
-    function displayDetailedAnswers(answers) {
-        if (!answers || answers.length === 0) {
-            return;
+    // Function to update a detail item in the results details section
+    function updateDetailItem(id, value, total) {
+        const detailElement = document.getElementById(id);
+        if (detailElement) {
+            const valueElement = detailElement.querySelector('.detail-value');
+            if (valueElement) {
+                if (id === 'correct-answers' && total) {
+                    valueElement.textContent = `${value} de ${total}`;
+                } else {
+                    valueElement.textContent = value;
+                }
+            }
         }
+    }
+    
+    // Function to format time in minutes and seconds
+    function formatTime(seconds) {
+        if (!seconds) return '0:00';
         
-        const detailsContainer = document.querySelector('.details');
-        if (!detailsContainer) {
-            return;
-        }
+        const mins = Math.floor(seconds / 60);
+        const secs = Math.floor(seconds % 60);
+        return `${mins}:${secs < 10 ? '0' + secs : secs}`;
+    }
+    
+    // Function to display answers
+    function displayAnswers(details) {
+        const answersContainer = document.getElementById('answersList');
+        if (!answersContainer) return;
         
-        // Clear previous content except the header
-        const detailsHeader = detailsContainer.querySelector('.details-header');
-        detailsContainer.innerHTML = '';
-        detailsContainer.appendChild(detailsHeader);
+        // Clear previous answers
+        answersContainer.innerHTML = '';
         
-        // Create and append answer details
-        answers.forEach((answer, index) => {
-            const answerElement = document.createElement('div');
-            answerElement.className = 'answer-item';
+        // Add each answer to the container
+        details.forEach((detail) => {
+            const answerItem = document.createElement('div');
+            answerItem.className = `answer-item ${detail.isCorrect ? 'correct' : 'incorrect'}`;
             
-            const isCorrect = answer.isCorrect;
-            answerElement.classList.add(isCorrect ? 'correct' : 'incorrect');
+            const userAnswerText = detail.userAnswer ? 
+                (detail.options && detail.options[detail.userAnswer] ? detail.options[detail.userAnswer] : detail.userAnswer) : 
+                'Sin respuesta';
             
-            answerElement.innerHTML = `
-                <div class="answer-number">Pregunta ${index + 1}</div>
+            const correctAnswerText = detail.options && detail.options[detail.correctAnswer] ? 
+                detail.options[detail.correctAnswer] : detail.correctAnswer;
+            
+            answerItem.innerHTML = `
+                <div class="answer-number">Pregunta ${detail.questionNumber}</div>
                 <div class="answer-content">
-                    <div class="question-text">${answer.question}</div>
-                    <div class="user-answer ${isCorrect ? 'correct-answer' : 'wrong-answer'}">
-                        Tu respuesta: ${answer.userAnswer}
+                    <div class="question-text">${detail.questionText}</div>
+                    <div class="user-answer ${detail.isCorrect ? 'correct-answer' : 'wrong-answer'}">
+                        Tu respuesta: ${userAnswerText}
                     </div>
-                    ${!isCorrect ? `<div class="correct-answer">Respuesta correcta: ${answer.correctAnswer}</div>` : ''}
+                    ${!detail.isCorrect ? `<div class="correct-answer">Respuesta correcta: ${correctAnswerText}</div>` : ''}
                 </div>
                 <div class="answer-status">
-                    <img src="assets/img/${isCorrect ? 'check' : 'cross'}.svg" alt="${isCorrect ? 'Correcto' : 'Incorrecto'}" />
+                    <i class="fas fa-${detail.isCorrect ? 'check' : 'times'}"></i>
                 </div>
             `;
             
-            detailsContainer.appendChild(answerElement);
+            answersContainer.appendChild(answerItem);
         });
     }
     
     // Function to show error message
     function showError(message) {
-        const messageElement = document.querySelector('.message');
-        if (messageElement) {
-            messageElement.textContent = message;
-            messageElement.style.display = 'block';
+        // Create error message container if it doesn't exist
+        let errorContainer = document.querySelector('.error-message');
+        
+        if (!errorContainer) {
+            errorContainer = document.createElement('div');
+            errorContainer.className = 'error-message';
+            errorContainer.style.backgroundColor = '#f8d7da';
+            errorContainer.style.color = '#721c24';
+            errorContainer.style.padding = '1rem';
+            errorContainer.style.borderRadius = '8px';
+            errorContainer.style.marginBottom = '1.5rem';
+            errorContainer.style.textAlign = 'center';
+            
+            const resultsContent = document.querySelector('.results-content');
+            if (resultsContent) {
+                resultsContent.prepend(errorContainer);
+            } else {
+                document.body.prepend(errorContainer);
+            }
         }
+        
+        errorContainer.textContent = message;
+        errorContainer.style.display = 'block';
+    }
+    
+    // Function to show error message
+    function showError(message) {
+        // Create error message container if it doesn't exist
+        let errorContainer = document.querySelector('.error-message');
+        
+        if (!errorContainer) {
+            errorContainer = document.createElement('div');
+            errorContainer.className = 'error-message';
+            errorContainer.style.backgroundColor = '#f8d7da';
+            errorContainer.style.color = '#721c24';
+            errorContainer.style.padding = '1rem';
+            errorContainer.style.borderRadius = '8px';
+            errorContainer.style.marginBottom = '1.5rem';
+            errorContainer.style.textAlign = 'center';
+            
+            const resultsContent = document.querySelector('.results-content');
+            if (resultsContent) {
+                resultsContent.prepend(errorContainer);
+            } else {
+                document.body.prepend(errorContainer);
+            }
+        }
+        
+        errorContainer.textContent = message;
+        errorContainer.style.display = 'block';
     }
     
     // Function to share results
